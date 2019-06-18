@@ -1,0 +1,21 @@
+@import "font-awesome.css";
+div#checkbox {
+  border: 1px solid #ccc;
+  width: 20px;
+  height: 20px;
+  background: #eee;
+  margin:0;
+}
+
+div#checkbox:not(.checked):before {
+    content: "";
+  }
+
+  div#checkbox.checked:before {
+    font-family: FontAwesome;
+    content: /f00c;
+    top:-10px;
+    left:-10px;
+    position: relative;
+    font-size:1.4em;
+  }
