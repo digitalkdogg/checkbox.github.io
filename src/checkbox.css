@@ -13,9 +13,7 @@ div#checkbox:not(.checked):before {
 
   div#checkbox.checked:before {
     font-family: FontAwesome;
-    content: /f00c;
-    top:-10px;
-    left:-10px;
+    content: "\f00c";
     position: relative;
     font-size:1.4em;
   }
