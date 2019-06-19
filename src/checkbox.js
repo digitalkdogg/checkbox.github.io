@@ -1,5 +1,13 @@
 setTimeout(function () {
-  if(document.getElementById('checkbox') != null) {
-    console.log('lets do this');
-  }
-})
+
+ var checkboxes = document.querySelectorAll("[id^=checkbox]");
+
+  if(checkboxes.length > 0) {
+    for (var x = 0; x<checkboxes.length; x++) {
+      checkboxes[x].addEventListener("click", function() {
+        var element = this
+        element.classList.add("checked");
+      });
+    }//end for
+  }//end if
+}) //end settimeout
