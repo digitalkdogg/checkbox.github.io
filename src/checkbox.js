@@ -17,6 +17,15 @@ var checkbox = {
       if (attr != null) {
         ele.setAttribute('style', 'color:'+ attr +';');
       }
+    },//end set color attr
+    'set_style_attr' : function (ele) {
+      var attr = ele.getAttribute('data-style')
+      if (attr != null) {
+        if (attr.indexOf(';')>1) {
+          attr = attr.replace(';', '');
+        }
+        ele.setAttribute('style', attr+';');
+      }
     }
   }
 }
@@ -26,6 +35,7 @@ setTimeout(function () {
   if(checkboxes.length > 0) {
     for (var x = 0; x<checkboxes.length; x++) {
       checkbox.utils.set_color_attr(checkboxes[x]);
+      checkbox.utils.set_style_attr(checkboxes[x]);
 
       var index = 'checkbox_'+x;
       checkbox.checkboxes[index] = checkboxes[x];
