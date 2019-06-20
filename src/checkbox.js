@@ -1,10 +1,6 @@
 var checkbox = {
   'checkboxes': {},
   'utils': {
-    'set_class_list': function (classstr) {
-      //var classarray = classstr.split(' ');
-      //console.log(classarray);
-    },
     'get_class_list': function (ele) {
       return ele.classList;
     },
@@ -15,7 +11,13 @@ var checkbox = {
       } else {
         return false;
       }
-    }//end checxk for check
+    },//end checxk for check
+    'set_color_attr' : function (ele) {
+      var attr = ele.getAttribute('data-color')
+      if (attr != null) {
+        ele.setAttribute('style', 'color:'+ attr +';');
+      }
+    }
   }
 }
 
@@ -23,6 +25,8 @@ setTimeout(function () {
   var checkboxes = document.querySelectorAll("[id^=checkbox]");
   if(checkboxes.length > 0) {
     for (var x = 0; x<checkboxes.length; x++) {
+      checkbox.utils.set_color_attr(checkboxes[x]);
+
       var index = 'checkbox_'+x;
       checkbox.checkboxes[index] = checkboxes[x];
       checkboxes[x].addEventListener("click", function() {
