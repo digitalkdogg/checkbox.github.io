@@ -4,6 +4,10 @@
 
     var checkbox = {
       'checkboxes': {},
+      'defaults': {
+        'selector': '.checkbox',
+        'post_html': '<input type = "hidden" />'
+      },
       'utils': {
           'get_class_list': function (ele) {
               return ele.classList;
@@ -30,16 +34,22 @@
                       }
                       ele.setAttribute('style', attr+';');
                   }
-              }//end set style attr
+              },//end set style attr
+              attach_posts: function (ele) {
+                if (ele.getAttribute('data-excludepost')!='true') {
+                  ele.innerHTML = ele.innerHTML + checkbox.defaults.post_html;
+                }
+              }//end attach_posts
           }//end utils
       }//end checkbox
 
-      var checkboxes = document.querySelectorAll("[id^=checkbox]");
-
+      //var checkboxes = document.querySelectorAll('.checkbox')
+      var checkboxes = document.querySelectorAll(checkbox.defaults.selector);
       if(checkboxes.length > 0) {
           for (var x = 0; x<checkboxes.length; x++) {
               checkbox.utils.set_color_attr(checkboxes[x]);
               checkbox.utils.set_style_attr(checkboxes[x]);
+              checkbox.utils.attach_posts(checkboxes[x]);
 
               var index = 'checkbox_'+x;
               checkbox.checkboxes[index] = checkboxes[x];

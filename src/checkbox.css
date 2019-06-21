@@ -1,5 +1,5 @@
 @import "font-awesome.css";
-div#checkbox {
+div.checkbox {
   border: 1px solid #ccc;
   width: 20px;
   height: 20px;
@@ -7,11 +7,11 @@ div#checkbox {
   margin:0;
 }
 
-div#checkbox:not(.checked):before {
+div.checkbox:not(.checked):before {
     content: "";
   }
 
-  div#checkbox.checked:before {
+  div.checkbox.checked:before {
     font-family: FontAwesome;
     content: "\f00c";
     position: relative;
