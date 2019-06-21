@@ -2,11 +2,49 @@
 <head>
   <script type="text/javascript" src="./src/checkbox.js"></script>
   <link rel="stylesheet" href="./src/checkbox.css" />
-<title>Checkbox.js</title>
+<title>Checkbox.me</title>
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    font-family: monospace;
+}
+
+div#header {
+    border-bottom: 1px solid #777;
+    background: #0d609b;
+    padding: 20px;
+}
+
+#header h1 {
+    color: white;
+}
+
+#header #logo div, #header #logo h1 {
+  display: inline-block;
+}
+
+#header #logo div#checkbox {
+  margin:0 10px;
+}
+
+div#content {
+    padding: 20px;
+    background: #eee;
+    height: 100%;
+}
+
+</style>
 </head>
 <body>
-<h1>Checkbox.js</h1>
-<div id = "checkbox" class = "checked randomclass" data-color = "purple"></div>testing
-<div id = "checkbox" class = "notchecked" data-style="background:yellow;" ></div>testing2
+  <div id = "header">
+    <div id = "logo">
+      <div id ="checkbox" class = "checked" data-style="background:#ccc;"></div><h1>Checkbox.me</h1>
+    </div>
+</div>
+<div id = "content">
+  <div id = "checkbox" class = "checked randomclass" data-color = "purple"></div>testing
+  <div id = "checkbox" class = "notchecked" data-style="background:yellow;" ></div>testing2
+</div>
 </body>
 </html>
