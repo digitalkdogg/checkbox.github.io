@@ -32,7 +32,28 @@ div#header {
 div#content {
     padding: 20px;
     background: #eee;
-    height: 100%;
+    min-height: 100%;
+}
+
+pre {
+    background: #f4f4f4;
+    border: 1px solid #ddd;
+    border-left: 3px solid #0d609b;
+    color: #666;
+    page-break-inside: avoid;
+    font-family: monospace;
+    font-size: 15px;
+    max-width: 100%;
+    overflow: hidden;
+    display: block;
+    word-wrap: break-word;
+}
+
+pre textarea {
+  background: #f4f4f4;
+  border: none;
+  width: 100%;
+  overflow-y:hidden;
 }
 
 </style>
@@ -44,6 +65,36 @@ div#content {
     </div>
 </div>
 <div id = "content">
+
+  <div id = "section">
+  <h4>Basic Usage </h4>
+  <p>1. Reference Jquery</p>
+  <pre><code>
+    <textarea disabled rows = "1">
+      <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js" />
+    </textarea>
+  </code></pre>
+  <p>2. Reference checkbox.me js</p>
+  <pre><code>
+    <textarea disabled rows = "1">
+      <script type="text/javascript" src="./checkbox.min.js" />
+    </textarea>
+  </code></pre>
+  <p>3. Reference checkbox.me css</p>
+  <pre><code>
+    <textarea disabled rows = "1">
+      <link rel="stylesheet" href="./checkbox.css" />
+    </textarea>
+  </code></pre>
+  <p>4. Create your divs with a class of checkbox</p>
+  <pre><code>
+    <textarea disabled rows = "1">
+      <div id = "mycheckboxid_1" class = "checkbox checked" />Do you like checkbox.me
+    </textarea>
+    <textarea disabled rows = "1">
+      <div id = "mycheckboxid_2" class = "checkbox" />Is Elvis still alive?
+    </textarea>
+  </code></pre>
   <form method = "get">
   <div id = "checkbox_1" class = "checked checkbox randomclass" data-color = "purple"></div>testing
   <div id = "checkbox_2" class = "notchecked checkbox" data-style="background:yellow;" ></div>testing2
@@ -51,6 +102,7 @@ div#content {
     <input type ="submit" />
   </div>
 </form>
+</div>
 </div>
 </body>
 </html>
