@@ -1,4 +1,9 @@
 @import "font-awesome.css";
+
+.hidden {
+  display:none;
+}
+
 div.checkbox {
   border: 1px solid #ccc;
   width: 20px;
