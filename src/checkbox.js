@@ -4,7 +4,18 @@ var checkbox = {
   'defaults': {
     'selector': '.checkbox',
     'post_html': {
-      'type': 'checkbox'
+      'type': 'checkbox',
+      'class':'hidden'
+    },
+    'exclude_post': false
+  },
+  'helpers': {
+    'get_obj_size' : function(obj) {
+      var size = 0, key;
+      for (key in obj) {
+          if (obj.hasOwnProperty(key)) size++;
+      }
+      return size;
     }
   },
   'utils': {
@@ -39,62 +50,78 @@ var checkbox = {
                   //ele.setAttribute('style', attr+';');
               }
           },//end set style attr
-          attach_posts: function (ele) {
-            if ($(ele).attr('data-excludepost')!=='true') {
-              var eleid = $(ele).attr('id')
-              $('<input />', {
-                'id' : 'input_'+eleid,
-                'type': checkbox.defaults.post_html.type,
-                'class': 'hidden',
-                'name': 'input_'+eleid
-              }).insertAfter($(ele));
+          'attach_posts': function (ele) {
+            if (checkbox.defaults.exclude_post == false) {
+              if ($(ele).attr('data-excludepost')!=='true') {
+                var eleid = $(ele).attr('id')
+                $('<input />', {
+                  'id' : 'input_'+eleid,
+                  'type': checkbox.defaults.post_html.type,
+                  'class': checkbox.defaults.post_html.class,
+                  'name': 'input_'+eleid
+                }).insertAfter($(ele));
 
-              if ($(ele).attr('data-checked') =='true') {
-                $('input#input_'+eleid).prop('checked', true)
-              }
+                if ($(ele).attr('data-checked') =='true') {
+                  $('input#input_'+eleid).prop('checked', true)
+                }
 
-              checkbox.checkboxes[eleid]['childinput']= $('input#input_'+eleid);
+                checkbox.checkboxes[eleid]['childinput']= $('input#input_'+eleid);
+              } //end if ele excludepost
+            } //end if ele global exclude
+          },//end attach_posts
+          'init': function (checkboxes) {
+            if(checkboxes.length > 0) {
+              $.each(checkboxes, function (index) {
+                var thisindex = $(this).attr('id')
 
-              }
-          }//end attach_posts
+                checkbox.checkboxes[thisindex] = $(this)
+
+                if($(this).hasClass('checked')==true) {
+                  $(this).attr('data-checked', true)
+                } else {
+                  $(this).attr('data-checked', false)
+                }
+
+                $(this).click(function() {
+                  var element = this
+                  var childele = checkbox.checkboxes[thisindex].childinput;
+                  if (checkbox.utils.check_for_check(this, 'checked') ===true) {
+                    $(this).removeClass('checked');
+                    $(this).attr('data-checked', false);
+
+                    $(childele).prop('checked', false)
+                  } else {
+                    $(this).addClass('checked');
+                    $(this).attr('data-checked', true)
+                    $(childele).prop('checked', true)
+                  }
+                  //checkbox.checkboxes[thisindex] = this;
+                }); //end click
+
+                checkbox.utils.set_color_attr($(this));
+                checkbox.utils.set_style_attr($(this));
+                checkbox.utils.attach_posts($(this));
+
+
+              }); //end each
+            }//end if
+          }
       }//end utils
   }//end checkbox
 
-$(function() {
-  var checkboxes = $(checkbox.defaults.selector);
-  if(checkboxes.length > 0) {
-    $.each(checkboxes, function (index) {
-      var thisindex = $(this).attr('id')
+  function init(selector, options) {
+    if (options != null) {
+      if (checkbox.helpers.get_obj_size(options) > 0) {
+         $.each(options, function (index, value) {
+           switch(index) {
+             case 'exclude_post':
+                checkbox.defaults.exclude_post = value;
+             break;
+             default:
 
-      checkbox.checkboxes[thisindex] = $(this)
-
-      if($(this).hasClass('checked')==true) {
-        $(this).attr('data-checked', true)
-      } else {
-        $(this).attr('data-checked', false)
+            }
+         })
       }
-
-      $(this).click(function() {
-        var element = this
-        var childele = checkbox.checkboxes[thisindex].childinput;
-        if (checkbox.utils.check_for_check(this, 'checked') ===true) {
-          $(this).removeClass('checked');
-          $(this).attr('data-checked', false);
-
-          $(childele).prop('checked', false)
-        } else {
-          $(this).addClass('checked');
-          $(this).attr('data-checked', true)
-          $(childele).prop('checked', true)
-        }
-        //checkbox.checkboxes[thisindex] = this;
-      }); //end click
-
-      checkbox.utils.set_color_attr($(this));
-      checkbox.utils.set_style_attr($(this));
-      checkbox.utils.attach_posts($(this));
-
-
-    }); //end each
-  }//end if
-})//end doc ready
+    }
+    checkbox.utils.init(selector)
+  }
