@@ -17,6 +17,12 @@ div#header {
     padding: 20px;
 }
 
+div#section {
+    background: white;
+    padding: 10px;
+    margin: 10px 0 20px 0;
+}
+
 #header h1 {
     color: white;
 }
@@ -47,6 +53,7 @@ pre {
     overflow: hidden;
     display: block;
     word-wrap: break-word;
+    margin: 0 20px;
 }
 
 pre textarea {
@@ -65,6 +72,19 @@ pre textarea {
     </div>
 </div>
 <div id = "content">
+  <div id = "section">
+    <h4>Overview</h4>
+    <p>Checkbox.me allows you to create stylish checkbox using the glyphicon library.  Each checkbox can be styled and configured
+      seperatly to suite the needs of your site.</p>
+    <h4>Example</h4>
+    <p>
+      <div id = "checkbox_1" class = "checked checkbox randomclass" ></div>Check me
+      | vs |
+      <input type = "checkbox" />Old School Checkbox
+    </p>
+
+      <p><button>Download Now</button</p>
+  </div>
 
   <div id = "section">
   <h4>Basic Usage </h4>
@@ -86,7 +106,7 @@ pre textarea {
       <link rel="stylesheet" href="./checkbox.css" />
     </textarea>
   </code></pre>
-  <p>4. Create your divs with a class of checkbox</p>
+  <p>4. Create your elements based on any selector</p>
   <pre><code>
     <textarea disabled rows = "1">
       <div id = "mycheckboxid_1" class = "checkbox checked" />Do you like checkbox.me
@@ -95,13 +115,23 @@ pre textarea {
       <div id = "mycheckboxid_2" class = "checkbox" />Is Elvis still alive?
     </textarea>
   </code></pre>
-  <form method = "get">
-  <div id = "checkbox_1" class = "checked checkbox randomclass" data-color = "purple"></div>testing
-  <div id = "checkbox_2" class = "notchecked checkbox" data-style="background:yellow;" ></div>testing2
-  <div>
-    <input type ="submit" />
-  </div>
-</form>
+  <p>5. Initiate the JS by passing in the selector of your element from step 4</p>
+  <pre><code>
+    <textarea disabled rows = "1">
+      init($('.checkbox'), null);
+    </textarea>
+  </code></pre>
+</div>
+<div id = "section">
+  <h4>Styling</h4>
+  <p>Styling can be passed in using the data-style attribute</p>
+  <ul><li>Use any valid inline styles as the value</li>
+      <li><div id = "mycheckboxid" class = "checkbox checked" data-style="color:red;"/>Is this color red?</li></ul>
+  <pre><code>
+    <textarea disabled rows = "1">
+      <div id = "mycheckboxid" class = "checkbox" data-style="color:red;"/>Is this color red?
+    </textarea>
+  </code></pre>
 </div>
 </div>
 </body>

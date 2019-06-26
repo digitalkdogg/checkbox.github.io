@@ -4,17 +4,24 @@
   display:none;
 }
 
+div.checkbox:before {
+    border: 1px solid #ccc;
+    background: #eee;
+        margin: 0 5px 0 0;
+}
+
 div.checkbox {
-  border: 1px solid #ccc;
   width: 20px;
   height: 20px;
-  background: #eee;
-  margin:0;
-  display:inline-block;
+  margin:0 5px;
+  display:contents;
 }
 
 div.checkbox:not(.checked):before {
     content: "";
+    width:20px;
+    height:20px;
+    display:inline-flex;
   }
 
   div.checkbox.checked:before {
