@@ -24,9 +24,13 @@ div.checkbox:not(.checked):before {
     display:inline-flex;
   }
 
-  div.checkbox.checked:before {
+div.checkbox.checked:before {
     font-family: FontAwesome;
     content: "\f00c";
     position: relative;
     font-size:1.4em;
   }
+
+div.checkbox span.checkbox-span {
+    color: initial;
+}

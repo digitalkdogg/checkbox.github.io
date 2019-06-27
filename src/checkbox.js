@@ -7,7 +7,11 @@ var checkbox = {
       'type': 'checkbox',
       'class':'hidden'
     },
-    'exclude_post': false
+    'exclude_post': false,
+    'colors': {
+      'color': 'green',
+      'background': 'black'
+    }
   },
   'helpers': {
     'get_obj_size' : function(obj) {
@@ -22,6 +26,17 @@ var checkbox = {
       'get_class_list': function (ele) {
           return ele.classList;
         },
+        'wrap_checkboxes': function (ele) {
+          if ($(ele).html().length > 0) {
+              let html = $(ele).html();
+              $(ele).wrap('<div id = "checkbox-wrapper" />')
+              $(ele).empty();
+              $('<span />', {
+                'html':html,
+               'class': 'checkbox-span'
+             }).insertAfter($(ele))
+           }
+        }, //end wrap checkboxes
         'check_for_check': function (ele, classstr) {
             var classarray = ele.classList.value.split(' ');
             if (classarray.indexOf(classstr)>=0) {
@@ -81,6 +96,10 @@ var checkbox = {
                 } else {
                   $(this).attr('data-checked', false)
                 }
+
+                if ($(this).html().length > 0) {
+                    checkbox.utils.wrap_checkboxes($(this));
+                 }
 
                 $(this).click(function() {
                   var element = this
