@@ -3,6 +3,11 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
   <script type="text/javascript" src="./src/checkbox.js"></script>
   <link rel="stylesheet" href="./src/checkbox.css" />
+
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script>
+  <!-- the above is https://highlightjs.org/usage/  -->
+  <script>hljs.initHighlightingOnLoad();</script>
 <title>Checkbox.me</title>
 <style>
 body {
@@ -62,6 +67,19 @@ pre textarea {
   border: none;
   width: 100%;
   overflow-y:hidden;
+  font-size: 1em;
+}
+
+.margin-left-20 {
+  margin-left:20px
+}
+
+#section h4 {
+    border-bottom: 1px solid #999;
+}
+
+#section h4 span {
+    font-weight: normal;
 }
 
 </style>
@@ -74,7 +92,7 @@ pre textarea {
 </div>
 <div id = "content">
   <div id = "section">
-    <h4>Overview</h4>
+    <h2>Overview</h2>
     <p>Checkbox.me allows you to create stylish checkbox using the glyphicon library.  Each checkbox can be styled and configured
       seperatly to suite the needs of your site.</p>
     <h4>Example</h4>
@@ -88,7 +106,7 @@ pre textarea {
   </div>
 
   <div id = "section">
-  <h4>Basic Usage </h4>
+  <h2>Basic Usage </h2>
   <p>1. Reference Jquery</p>
   <pre><code>
     <textarea disabled rows = "1">
@@ -96,44 +114,71 @@ pre textarea {
     </textarea>
   </code></pre>
   <p>2. Reference checkbox.me js</p>
-  <pre><code>
-    <textarea disabled rows = "1">
+  <pre><code class="nohighlight">
+  <textarea disabled rows = "1">
       <script type="text/javascript" src="./checkbox.min.js" />
-    </textarea>
+  </textarea>
   </code></pre>
   <p>3. Reference checkbox.me css</p>
-  <pre><code>
+  <pre><code class="nohighlight">
     <textarea disabled rows = "1">
       <link rel="stylesheet" href="./checkbox.css" />
     </textarea>
   </code></pre>
   <p>4. Create your elements based on any selector</p>
-  <pre><code>
-    <textarea disabled rows = "1">
-      <div id = "mycheckboxid_1" class = "checkbox checked" />Do you like checkbox.me
+  <pre><code class="nohighlight">
+    <textarea disabled>
+      <div id = "mycheckboxid_1" class = "checkbox checked">
+        Do you like checkbox.me
+      </div>
     </textarea>
-    <textarea disabled rows = "1">
-      <div id = "mycheckboxid_2" class = "checkbox" />Is Elvis still alive?
+    <textarea disabled>
+      <div id = "mycheckboxid_2" class = "checkbox">
+        Is Elvis still alive?
+      </div>
     </textarea>
   </code></pre>
   <p>5. Initiate the JS by passing in the selector of your element from step 4</p>
-  <pre><code>
-    <textarea disabled rows = "1">
+  <pre><code class="javascript">
       init($('.checkbox'), null);
-    </textarea>
   </code></pre>
 </div>
 <div id = "section">
-  <h4>Setting Global Defaults</h4>
-<form method = "GET">
-<div class = "checkbox">testig</div>
-</form>
+  <h2>Setting Global Defaults</h2>
+  <p>By default checkbox.me will set certain config options with a default
+  value.  There may be a time where you would like a differnt value to be set.
+  Global options can be set using the options js method.  Just set a var
+  with our options and passed it in when you call init</p>
+  <pre><code class="javascript">
+    var options = {
+      styles: {
+        color: 'red'
+      }
+    }
+
+    init($('.checkbox'), options);
+  </code></pre>
+    <p class = "margin-left-20">The above code will take set all of the checkboxes on your page to have
+    a color of red unless they are overrided by the data-style attribute</p>
+    <p class = "margin-left-20"><div class = "checkbox" data-style= "color:red;">example red</div></p>
+
+    <h4>exclude_post : <span> Used to exclude checkbox from a post.  Useful if hitting an ajax rest call </span></h4>
+    <p><b>Default : </b>False</p>
+    <p><b>Options : </b>True or False</p>
+
+    <h4>styles : <span>Used to set default styling for all checkboxes on the page</span> </h4>
+    <p><b>Default : </b></p>
+    <p class = "margin-left-20"><b>color : </b>black</p>
+    <p class = "margin-left-20"><b>background : </b>black</p>
+    <p class = "margin-left-20"><b>border : </b>1px solid black</p>
+    <p><b>Options : </b>js object of attributes</p>
+
 </div>
 </div>
 </body>
 <script>
 var options = {
-  'exclude_post': false,
+  'exclude_post': true,
   'styles': {
     'color': 'black',
     'background': '#ccc',
