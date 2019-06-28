@@ -8,9 +8,10 @@ var checkbox = {
       'class':'hidden'
     },
     'exclude_post': false,
-    'colors': {
-      'color': 'green',
-      'background': 'black'
+    'styles': {
+      'color': 'black',
+      'background': '#eee',
+      'border': '1px solid black'
     }
   },
   'helpers': {
@@ -27,15 +28,21 @@ var checkbox = {
           return ele.classList;
         },
         'wrap_checkboxes': function (ele) {
+
           if ($(ele).html().length > 0) {
               let html = $(ele).html();
-              $(ele).wrap('<div id = "checkbox-wrapper" />')
+              $(ele).wrap('<div class = "checkbox-wrapper" />')
               $(ele).empty();
               $('<span />', {
                 'html':html,
                'class': 'checkbox-span'
              }).insertAfter($(ele))
            }
+
+           $(ele).css({'background':checkbox.defaults.styles.background});
+           $(ele).css({'border':checkbox.defaults.styles.border});
+           $(ele).css({'color':checkbox.defaults.styles.color});
+
         }, //end wrap checkboxes
         'check_for_check': function (ele, classstr) {
             var classarray = ele.classList.value.split(' ');
@@ -50,7 +57,6 @@ var checkbox = {
               var attr = $(ele).attr('data-color')
               if (attr != null) {
                 $(ele).attr('style', 'color:'+attr+';');
-                  //ele.setAttribute('style', 'color:'+ attr +';');
               }
           },//end set color attr
           'set_style_attr' : function (ele) {
@@ -62,7 +68,6 @@ var checkbox = {
                   }
 
                   $(ele).attr('style', attr + ';');
-                  //ele.setAttribute('style', attr+';');
               }
           },//end set style attr
           'attach_posts': function (ele) {
@@ -114,7 +119,6 @@ var checkbox = {
                     $(this).attr('data-checked', true)
                     $(childele).prop('checked', true)
                   }
-                  //checkbox.checkboxes[thisindex] = this;
                 }); //end click
 
                 checkbox.utils.set_color_attr($(this));
@@ -135,6 +139,11 @@ var checkbox = {
            switch(index) {
              case 'exclude_post':
                 checkbox.defaults.exclude_post = value;
+             break;
+             case 'styles':
+                //todo : loop through and check if one needs updated
+                //instead of the whole kitchen sink
+                checkbox.defaults.styles = value;
              break;
              default:
 

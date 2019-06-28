@@ -9,6 +9,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: monospace;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 div#header {
@@ -78,7 +79,7 @@ pre textarea {
       seperatly to suite the needs of your site.</p>
     <h4>Example</h4>
     <p>
-      <div id = "checkbox_1" class = "checked checkbox randomclass" ></div>Check me
+      <div id = "checkbox_1" class = "checked checkbox randomclass" ><span>Check me</span></div>
       | vs |
       <input type = "checkbox" />Old School Checkbox
     </p>
@@ -130,12 +131,20 @@ pre textarea {
     <div id = "mycheckboxid" class = "checkbox checked" data-style="color:red;" />
     <testing>Is this color red</testing>
 
+    <div id = "mycheckboxid" class = "checkbox checked" data-style="background:red;" />
+    <testing>Is this color red</testing>
+
 </div>
 </div>
 </body>
 <script>
 var options = {
-  'exclude_post': true
+  'exclude_post': true,
+  'styles': {
+    'color': 'black',
+    'background': '#ccc',
+    'border': '1px solid black'
+  }
 }
 init($('.checkbox'), options);
 </script>

@@ -4,17 +4,15 @@
   display:none;
 }
 
-div.checkbox:before {
-    border: 1px solid #ccc;
-    background: #eee;
-        margin: 0 5px 0 0;
+div.checkbox-wrapper {
+  display:inline-block;
 }
 
 div.checkbox {
   width: 20px;
   height: 20px;
   margin:0 5px;
-  display:contents;
+  display:inline-block;
 }
 
 div.checkbox:not(.checked):before {
