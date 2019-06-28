@@ -74,6 +74,9 @@ var checkbox = {
             if (checkbox.defaults.exclude_post == false) {
               if ($(ele).attr('data-excludepost')!=='true') {
                 var eleid = $(ele).attr('id')
+                if (eleid == undefined) {
+                  eleid = Date.now();
+                }
                 $('<input />', {
                   'id' : 'input_'+eleid,
                   'type': checkbox.defaults.post_html.type,
@@ -85,6 +88,9 @@ var checkbox = {
                   $('input#input_'+eleid).prop('checked', true)
                 }
 
+                if (checkbox.checkboxes[eleid] == undefined) {
+                  checkbox.checkboxes[eleid] = {};
+                }
                 checkbox.checkboxes[eleid]['childinput']= $('input#input_'+eleid);
               } //end if ele excludepost
             } //end if ele global exclude
