@@ -74,6 +74,10 @@ pre textarea {
   margin-left:20px
 }
 
+.margin-left-40 {
+  margin-left:40px
+}
+
 #section h4 {
     border-bottom: 1px solid #999;
 }
@@ -163,17 +167,50 @@ pre textarea {
     <p class = "margin-left-20"><div class = "checkbox" data-style= "color:red;">example red</div></p>
 
     <h4>exclude_post : <span> Used to exclude checkbox from a post.  Useful if hitting an ajax rest call </span></h4>
-    <p><b>Default : </b>False</p>
-    <p><b>Options : </b>True or False</p>
+    <p class = "margin-left-20"><b>Default : </b>False</p>
+    <p class = "margin-left-20"><b>Options : </b>True or False</p>
 
     <h4>styles : <span>Used to set default styling for all checkboxes on the page</span> </h4>
-    <p><b>Default : </b></p>
-    <p class = "margin-left-20"><b>color : </b>black</p>
-    <p class = "margin-left-20"><b>background : </b>black</p>
-    <p class = "margin-left-20"><b>border : </b>1px solid black</p>
-    <p><b>Options : </b>js object of attributes</p>
+    <p class = "margin-left-20"><b>Default : </b></p>
+    <p class = "margin-left-40"><b>color : </b>black</p>
+    <p class = "margin-left-40"><b>background : </b>black</p>
+    <p class = "margin-left-40"><b>border : </b>1px solid black</p>
+    <p class = "margin-left-20"><b>Options : </b>js object of attributes</p>
 
 </div>
+<div id = "section">
+<h2>Overriding individual checkboxes</h2>
+<p>Sometimes there is a need to style just one checkbox a certain way from all of
+your other checkboxes.  Checkbox.me has that covered</p>
+<h4>data-style : <span>This allows you to pass inline style attributes to an individual checkbox</span></h4>
+<p class = "margin-left-20">Example :
+<pre><code class="nohighlight">
+<textarea disabled>
+<div class = "checkbox" data-style="border-radius: 10px;">border radius 10</div>
+</textarea>
+</pre></code>
+</p>
+<p class = "margin-left-20">Results :
+<div class = "checkbox" data-style="border-radius: 10px;">border radius 10</div>
+</p>
+<p class = "margin-left-20">Usages : Will accept any valid inline style attribute</p>
+<h4>data-excludepost : <span>If you want to turn off including an indiviual checkbox from its post.  Assumes that you using the default option of exclude_post</span></h4>
+<p class = "margin-left-20">Example :
+<pre><code class = "nohighlight">
+<textarea disabled>
+<div id = "dontincludeinpost" class = "checkbox" data-excludepost = "true">I don't want to include this in the post</div>
+</textarea>
+</code></pre>
+</p>
+<p class = "margin-left-20">
+Results :
+<div id = "dontincludeinpost" class = "checkbox" data-excludepost = "true">I don't want to include this in the post</div>
+</p>
+<p class = "margin-left-20">
+Usage : accepts a true / false value
+</p>
+</div>
+
 </div>
 </body>
 <script>
