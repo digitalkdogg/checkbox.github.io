@@ -144,7 +144,7 @@ pre textarea {
   </code></pre>
   <p>5. Initiate the JS by passing in the selector of your element from step 4</p>
   <pre><code class="javascript">
-      init($('.checkbox'), null);
+      checkbox.init('.checkbox');
   </code></pre>
 </div>
 <div id = "section">
@@ -160,7 +160,7 @@ pre textarea {
       }
     }
 
-    init($('.checkbox'), options);
+    checkbox.init('.checkbox', options);
   </code></pre>
     <p class = "margin-left-20">The above code will take set all of the checkboxes on your page to have
     a color of red unless they are overrided by the data-style attribute</p>
@@ -222,6 +222,7 @@ var options = {
     'border': '1px solid black'
   }
 }
-init($('.checkbox'), options);
+checkbox.init('.checkbox', options)
+//init($('.checkbox'), options);
 </script>
 </html>

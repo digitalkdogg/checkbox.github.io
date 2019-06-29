@@ -88,66 +88,68 @@ var checkbox = {
               } //end if ele excludepost
             } //end if ele global exclude
           },//end attach_posts
-          'init': function (checkboxes) {
-            if(checkboxes.length > 0) {
-              $.each(checkboxes, function (index) {
-                var thisindex = $(this).attr('id')
+          'handle_options': function (options) {
+            if (checkbox.helpers.get_obj_size(options) > 0) {
+               $.each(options, function (index, value) {
+                 switch(index) {
+                   case 'exclude_post':
+                      checkbox.defaults.exclude_post = value;
+                   break;
+                   case 'styles':
+                      //todo : loop through and check if one needs updated
+                      //instead of the whole kitchen sink
+                      checkbox.defaults.styles = value;
+                   break;
+                   default:
 
-                checkbox.checkboxes[thisindex] = $(this)
-
-                if($(this).hasClass('checked')==true) {
-                  $(this).attr('data-checked', true)
-                } else {
-                  $(this).attr('data-checked', false)
-                }
-
-                if ($(this).html().length > 0) {
-                    checkbox.utils.wrap_checkboxes($(this));
-                 }
-
-                $(this).click(function() {
-                  var element = this
-                  var childele = checkbox.checkboxes[thisindex].childinput;
-                  if (checkbox.utils.check_for_check(this, 'checked') ===true) {
-                    $(this).removeClass('checked');
-                    $(this).attr('data-checked', false);
-
-                    $(childele).prop('checked', false)
-                  } else {
-                    $(this).addClass('checked');
-                    $(this).attr('data-checked', true)
-                    $(childele).prop('checked', true)
                   }
-                }); //end click
-
-                checkbox.utils.set_style_attr($(this));
-                checkbox.utils.attach_posts($(this));
-
-
-              }); //end each
-            }//end if
-          }
-      }//end utils
-  }//end checkbox
-
-  function init(selector, options) {
-    if (options != null) {
-      if (checkbox.helpers.get_obj_size(options) > 0) {
-         $.each(options, function (index, value) {
-           switch(index) {
-             case 'exclude_post':
-                checkbox.defaults.exclude_post = value;
-             break;
-             case 'styles':
-                //todo : loop through and check if one needs updated
-                //instead of the whole kitchen sink
-                checkbox.defaults.styles = value;
-             break;
-             default:
-
+               })
             }
-         })
+          }
+      },//end utils
+      'init': function (selector, options) {
+        //check if there are global options overried
+        if (options != null) {
+          this.utils.handle_options(options)
+        }
+
+        var checkboxes = $(selector);
+
+        if(checkboxes.length > 0) {
+          $.each(checkboxes, function (index) {
+            var thisindex = $(this).attr('id')
+
+            checkbox.checkboxes[thisindex] = $(this)
+
+            if($(this).hasClass('checked')==true) {
+              $(this).attr('data-checked', true)
+            } else {
+              $(this).attr('data-checked', false)
+            }
+
+            if ($(this).html().length > 0) {
+                checkbox.utils.wrap_checkboxes($(this));
+             }
+
+            $(this).click(function() {
+              var element = this
+              var childele = checkbox.checkboxes[thisindex].childinput;
+              if (checkbox.utils.check_for_check(this, 'checked') ===true) {
+                $(this).removeClass('checked');
+                $(this).attr('data-checked', false);
+
+                $(childele).prop('checked', false)
+              } else {
+                $(this).addClass('checked');
+                $(this).attr('data-checked', true)
+                $(childele).prop('checked', true)
+              }
+            }); //end click
+
+            checkbox.utils.set_style_attr($(this));
+            checkbox.utils.attach_posts($(this));
+
+          }); //end each
+        }//end if
       }
-    }
-    checkbox.utils.init(selector)
-  }
+  }//end checkbox
