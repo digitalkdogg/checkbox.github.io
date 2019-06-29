@@ -38,7 +38,7 @@ var checkbox = {
                'class': 'checkbox-span'
              }).insertAfter($(ele))
            }
-
+           console.log($(ele).attr('id'))
            $(ele).css({'background':checkbox.defaults.styles.background});
            $(ele).css({'border':checkbox.defaults.styles.border});
            $(ele).css({'color':checkbox.defaults.styles.color});
@@ -52,22 +52,15 @@ var checkbox = {
                 return false;
             }
           },//end checxk for check
-          'set_color_attr' : function (ele) {
-              //var attr = ele.getAttribute('data-color')
-              var attr = $(ele).attr('data-color')
-              if (attr != null) {
-                $(ele).attr('style', 'color:'+attr+';');
-              }
-          },//end set color attr
           'set_style_attr' : function (ele) {
               //var attr = ele.getAttribute('data-style')
               var attr = $(ele).attr('data-style');
               if (attr != undefined) {
-                  if (attr.indexOf(';')>0) {
-                      attr = attr.replace(';', '');
-                  }
-
-                  $(ele).attr('style', attr + ';');
+                if (attr.indexOf(':')>0) {
+                  var style = attr.split(':');
+                  style[1] = style[1].replace(';', '')
+                  $(ele).css(style[0], style[1])
+                }
               }
           },//end set style attr
           'attach_posts': function (ele) {
@@ -127,7 +120,6 @@ var checkbox = {
                   }
                 }); //end click
 
-                checkbox.utils.set_color_attr($(this));
                 checkbox.utils.set_style_attr($(this));
                 checkbox.utils.attach_posts($(this));
 
