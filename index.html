@@ -70,6 +70,10 @@ pre textarea {
   font-size: 1em;
 }
 
+code.nohighlight textarea {
+    padding: 0 20px;
+}
+
 .margin-left-20 {
   margin-left:20px
 }
@@ -112,35 +116,20 @@ pre textarea {
   <div id = "section">
   <h2>Basic Usage </h2>
   <p>1. Reference Jquery</p>
-  <pre><code>
-    <textarea disabled rows = "1">
-      <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js" />
-    </textarea>
+  <pre><code class = "nohighlight">
+    <textarea disabled rows = "1"><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js" /></textarea>
   </code></pre>
   <p>2. Reference checkbox.me js</p>
   <pre><code class="nohighlight">
-  <textarea disabled rows = "1">
-      <script type="text/javascript" src="./checkbox.min.js" />
-  </textarea>
+  <textarea disabled rows = "1"><script type="text/javascript" src="./checkbox.min.js" /></textarea>
   </code></pre>
   <p>3. Reference checkbox.me css</p>
   <pre><code class="nohighlight">
-    <textarea disabled rows = "1">
-      <link rel="stylesheet" href="./checkbox.css" />
-    </textarea>
+    <textarea disabled rows = "1"><link rel="stylesheet" href="./checkbox.css" /></textarea>
   </code></pre>
   <p>4. Create your elements based on any selector</p>
   <pre><code class="nohighlight">
-    <textarea disabled>
-      <div id = "mycheckboxid_1" class = "checkbox checked">
-        Do you like checkbox.me
-      </div>
-    </textarea>
-    <textarea disabled>
-      <div id = "mycheckboxid_2" class = "checkbox">
-        Is Elvis still alive?
-      </div>
-    </textarea>
+    <textarea disabled><div id = "mycheckboxid_1" class = "checkbox checked">Do you like checkbox.me</div></textarea>
   </code></pre>
   <p>5. Initiate the JS by passing in the selector of your element from step 4</p>
   <pre><code class="javascript">
