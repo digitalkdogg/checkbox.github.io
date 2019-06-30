@@ -19,6 +19,9 @@ div.checkbox:not(.checked):before {
     content: "";
     width:20px;
     height:20px;
+    top: 2px;
+    left:2px;
+    position: relative;
     display:inline-flex;
   }
 
@@ -27,8 +30,15 @@ div.checkbox.checked:before {
     content: "\f00c";
     position: relative;
     font-size:1em;
+    top: 2px;
+    left: 2px;
   }
 
 div.checkbox span.checkbox-span {
     color: initial;
+    vertical-align: bottom;
+}
+
+div.checkbox-wrapper:not(.checked) span.checkbox-span {
+    vertical-align: bottom;
 }

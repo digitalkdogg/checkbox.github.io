@@ -12,7 +12,7 @@ var checkbox = {
       'color': 'black',
       'background': '#eee',
       'border': '1px solid black',
-      'font_size': '1.5em',
+      'font_size': '1.1em',
     }
   },
   'helpers': {
@@ -61,6 +61,10 @@ var checkbox = {
                 'html':html,
                'class': 'checkbox-span'
              }).insertAfter($(ele))
+
+             if ($(ele).attr('data-checked')=='true') {
+               $(ele).parent('.checkbox-wrapper').addClass('checked');
+             }
            }
 
            $(ele).css({'background':checkbox.defaults.styles.background});
@@ -125,13 +129,77 @@ var checkbox = {
                         $.each(value, function (item, val) {
                           if (checkbox.defaults.styles[item] != undefined) {
                             if (val != checkbox.defaults.styles[item]) {
+
+                              if (item == 'font_size') {
+                                if (checkbox.defaults.styles['font_size'] != val) {
+                                  var defaultval = checkbox.defaults.styles['font_size'];
+                                  var newunit = ''
+                                  var defaultunit = ''
+                                  if (val.indexOf('px')>0) {
+                                    newunit = 'px'
+                                  }
+                                  if (val.indexOf('em')>0) {
+                                    newunit = 'em';
+                                  }
+                                  if (defaultval.indexOf('px')>0) {
+                                    defaultunit = 'px';
+                                  }
+                                  if (defaultval.indexOf('em')>0) {
+                                    defaultunit = 'em';
+                                  }
+
+                                  if (newunit == defaultunit) {
+                                    let startpos = val.indexOf(newunit);
+                                    let newnumval = val.slice(0, startpos);
+                                    startpos = defaultval.indexOf(defaultunit);
+                                    let newdefaultnumval = defaultval.slice(0, startpos);
+                                    var topdiff = 0;
+                                    var leftdiff = 0;
+                                    if (newdefaultnumval > newnumval) {
+                                      topdiff = newdefaultnumval - newnumval;
+                                    } else {
+                                      topdiff = newnumval - newdefaultnumval
+                                    }
+
+
+                                    if (newunit == 'em') {
+                                      if (newnumval > 0 && newnumval <= 1.5)
+                                        topdiff = ((topdiff / 2) * 1) /1
+
+                                      }
+                                      if (newnumval > 1.5 && newnumval <= 2) {
+                                        topdiff = ((topdiff / 2.5) * 1) /1
+                                      }
+                                      if (newnumval > 2 && newnumval <= 3) {
+                                        topdiff = ((topdiff / 3.5) * 1) / 1
+                                        leftdiff = .2
+                                      }
+
+                                    }
+
+                                    checkbox.helpers.add_rule('.checkbox:before', {
+                                      top: '-' + topdiff + newunit + ' !important',
+                                      left: '-' + leftdiff + newunit + ' !important'
+                                    })
+
+
+
+                              //    checkbox.helpers.add_rule(".checkbox:before", {
+                              //      top: '-10px'
+                              //    });
+                                }
+                              }
+
+
                               checkbox.defaults.styles[item] = val
+
                             }
                           }
                         })
                       }
                     //  checkbox.defaults.styles = value;
                    break;
+
                    default:
 
                   }
@@ -174,11 +242,16 @@ var checkbox = {
               if (checkbox.utils.check_for_check(this, 'checked') ===true) {
                 $(this).removeClass('checked');
                 $(this).attr('data-checked', false);
+                $(childele).prop('checked', false);
 
-                $(childele).prop('checked', false)
+                $(this).parent('checkbox-wrapper').toggleClass('checked')
+
               } else {
                 $(this).addClass('checked');
                 $(this).attr('data-checked', true)
+
+                $(this).parent('checkbox-wrapper').toggleClass('checked')
+
                 $(childele).prop('checked', true)
               }
             }); //end click
