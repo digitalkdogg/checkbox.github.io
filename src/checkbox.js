@@ -11,7 +11,8 @@ var checkbox = {
     'styles': {
       'color': 'black',
       'background': '#eee',
-      'border': '1px solid black'
+      'border': '1px solid black',
+      'font_size': '1.5em',
     }
   },
   'helpers': {
@@ -21,7 +22,30 @@ var checkbox = {
           if (obj.hasOwnProperty(key)) size++;
       }
       return size;
-    }
+    },
+    'add_rule' : function (selector, styles, sheet) {
+        styles = (function (styles) {
+            if (typeof styles === "string") return styles;
+            var clone = "";
+            for (var p in styles) {
+                if (styles.hasOwnProperty(p)) {
+                    var val = styles[p];
+                    p = p.replace(/([A-Z])/g, "-$1").toLowerCase(); // convert to dash-case
+                    clone += p + ":" + (p === "content" ? '"' + val + '"' : val) + "; ";
+                }
+            }
+            return clone;
+        }(styles));
+        sheet = sheet || document.styleSheets[document.styleSheets.length - 1];
+        if (sheet.insertRule) {
+          sheet.insertRule(selector + " {" + styles + "}", sheet.cssRules.length);
+        } else if(sheet.addRule) {
+          sheet.add_rule(selector, styles);
+        }
+
+        return this;
+
+    }//end addRule funciton
   },
   'utils': {
       'get_class_list': function (ele) {
@@ -38,10 +62,11 @@ var checkbox = {
                'class': 'checkbox-span'
              }).insertAfter($(ele))
            }
-           console.log($(ele).attr('id'))
+
            $(ele).css({'background':checkbox.defaults.styles.background});
            $(ele).css({'border':checkbox.defaults.styles.border});
            $(ele).css({'color':checkbox.defaults.styles.color});
+           $(ele).css({'font-size':checkbox.defaults.styles.font_size});
 
         }, //end wrap checkboxes
         'check_for_check': function (ele, classstr) {
@@ -96,14 +121,26 @@ var checkbox = {
                       checkbox.defaults.exclude_post = value;
                    break;
                    case 'styles':
-                      //todo : loop through and check if one needs updated
-                      //instead of the whole kitchen sink
-                      checkbox.defaults.styles = value;
+                      if (checkbox.helpers.get_obj_size(value) >0) {
+                        $.each(value, function (item, val) {
+                          if (checkbox.defaults.styles[item] != undefined) {
+                            if (val != checkbox.defaults.styles[item]) {
+                              checkbox.defaults.styles[item] = val
+                            }
+                          }
+                        })
+                      }
+                    //  checkbox.defaults.styles = value;
                    break;
                    default:
 
                   }
                })
+
+          //     checkbox.helpers.add_rule(".checkbox:before", {
+          //       top: '-10px',
+          //       color: 'green'
+          //     });
             }
           }
       },//end utils
