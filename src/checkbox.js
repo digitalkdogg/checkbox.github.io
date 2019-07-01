@@ -82,13 +82,20 @@ var checkbox = {
             }
           },//end checxk for check
           'set_style_attr' : function (ele) {
-              //var attr = ele.getAttribute('data-style')
               var attr = $(ele).attr('data-style');
               if (attr != undefined) {
-                if (attr.indexOf(':')>0) {
-                  var style = attr.split(':');
-                  style[1] = style[1].replace(';', '')
-                  $(ele).css(style[0], style[1])
+                if (attr.indexOf(';') > 0) {
+                  attr = attr.split(';');
+                  for (let x=0; x<attr.length; x++) {
+                    if (attr[x]!= '') {
+                      let style = attr[x].split(':');
+                      let styleele = style[0].trim();
+                      let styleval = style[1].trim();
+                      let styleobj = {}
+                      styleobj[styleele] = styleval;
+                      $(ele).css(styleobj);
+                    }
+                  }
                 }
               }
           },//end set style attr
@@ -135,21 +142,8 @@ var checkbox = {
                                   var defaultval = checkbox.defaults.styles['font_size'];
                                   var newunit = ''
                                   var defaultunit = ''
-                              //    if (val.indexOf('px')>0) {
-                              //      newunit = 'px'
-                            //      }
-                            //      if (val.indexOf('em')>0) {
-                            //        newunit = 'em';
-                          //        }
-                            //      if (defaultval.indexOf('px')>0) {
-                          //          defaultunit = 'px';
-                          //        }
-                        //          if (defaultval.indexOf('em')>0) {
-                          //          defaultunit = 'em';
-                        //          }
 
                                   var unitobj = checkbox.utils.get_font_size_unit(val, defaultval);
-
 
                                   if (unitobj.new == unitobj.default) {
                                     let startpos = val.indexOf(unitobj.new);
