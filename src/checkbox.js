@@ -135,58 +135,35 @@ var checkbox = {
                                   var defaultval = checkbox.defaults.styles['font_size'];
                                   var newunit = ''
                                   var defaultunit = ''
-                                  if (val.indexOf('px')>0) {
-                                    newunit = 'px'
-                                  }
-                                  if (val.indexOf('em')>0) {
-                                    newunit = 'em';
-                                  }
-                                  if (defaultval.indexOf('px')>0) {
-                                    defaultunit = 'px';
-                                  }
-                                  if (defaultval.indexOf('em')>0) {
-                                    defaultunit = 'em';
-                                  }
+                              //    if (val.indexOf('px')>0) {
+                              //      newunit = 'px'
+                            //      }
+                            //      if (val.indexOf('em')>0) {
+                            //        newunit = 'em';
+                          //        }
+                            //      if (defaultval.indexOf('px')>0) {
+                          //          defaultunit = 'px';
+                          //        }
+                        //          if (defaultval.indexOf('em')>0) {
+                          //          defaultunit = 'em';
+                        //          }
 
-                                  if (newunit == defaultunit) {
-                                    let startpos = val.indexOf(newunit);
+                                  var unitobj = checkbox.utils.get_font_size_unit(val, defaultval);
+
+
+                                  if (unitobj.new == unitobj.default) {
+                                    let startpos = val.indexOf(unitobj.new);
                                     let newnumval = val.slice(0, startpos);
-                                    startpos = defaultval.indexOf(defaultunit);
-                                    let newdefaultnumval = defaultval.slice(0, startpos);
-                                    var topdiff = 0;
-                                    var leftdiff = 0;
-                                    if (newdefaultnumval > newnumval) {
-                                      topdiff = newdefaultnumval - newnumval;
-                                    } else {
-                                      topdiff = newnumval - newdefaultnumval
-                                    }
 
+                                    var topdiff = checkbox.utils.calc_font_size_diff(unitobj.new, val, unitobj.default, defaultval);
+                                    var diffobj = checkbox.utils.calc_font_size_left_right(unitobj.new, newnumval, topdiff);
 
-                                    if (newunit == 'em') {
-                                      if (newnumval > 0 && newnumval <= 1.5)
-                                        topdiff = ((topdiff / 2) * 1) /1
-
-                                      }
-                                      if (newnumval > 1.5 && newnumval <= 2) {
-                                        topdiff = ((topdiff / 2.5) * 1) /1
-                                      }
-                                      if (newnumval > 2 && newnumval <= 3) {
-                                        topdiff = ((topdiff / 3.5) * 1) / 1
-                                        leftdiff = .2
-                                      }
-
-                                    }
+                                  }
 
                                     checkbox.helpers.add_rule('.checkbox:before', {
-                                      top: '-' + topdiff + newunit + ' !important',
-                                      left: '-' + leftdiff + newunit + ' !important'
+                                      top: '-' + diffobj.top + unitobj.new + ' !important',
+                                      left: '-' + diffobj.left + unitobj.new + ' !important'
                                     })
-
-
-
-                              //    checkbox.helpers.add_rule(".checkbox:before", {
-                              //      top: '-10px'
-                              //    });
                                 }
                               }
 
@@ -205,12 +182,61 @@ var checkbox = {
                   }
                })
 
-          //     checkbox.helpers.add_rule(".checkbox:before", {
-          //       top: '-10px',
-          //       color: 'green'
-          //     });
             }
+          },
+          'get_font_size_unit': function (val, defaultval) {
+            var unitobj = {};
+            if (val.indexOf('px')>0) {
+              unitobj.new = 'px'
+            }
+            if (val.indexOf('em')>0) {
+              unitobj.new = 'em';
+            }
+            if (defaultval.indexOf('px')>0) {
+              unitobj.default = 'px';
+            }
+            if (defaultval.indexOf('em')>0) {
+              unitobj.default = 'em';
+            }
+            return unitobj;
+          },
+          'calc_font_size_diff': function (unit, val, defaultunit, defaultval) {
+            let startpos = val.indexOf(unit);
+            let newnumval = val.slice(0, startpos);
+            startpos = defaultval.indexOf(defaultunit);
+            let newdefaultnumval = defaultval.slice(0, startpos);
+            var topdiff = 0;
+
+            if (newdefaultnumval > newnumval) {
+              topdiff = newdefaultnumval - newnumval;
+            } else {
+              topdiff = newnumval - newdefaultnumval
+            }
+            return topdiff;
+          },
+          'calc_font_size_left_right' : function (unit, val, topdiff) {
+            switch(unit) {
+              case 'em':
+                var diffobj = {top:0, left:0}
+                if (val > 0 && val <= 1.5) {
+                  diffobj.top = ((topdiff / 2) * 1) /1;
+                  return diffobj;
+                }
+                if (val > 1.5 && val <= 2) {
+                  diffobj.top = ((topdiff / 2.5) * 1) /1;
+                  return diffobj;
+                }
+                if (val > 2 && val <= 3) {
+                  diffobj.top = ((topdiff / 3.5) * 1) / 1
+                  diffobj.left = .2
+                  return diffobj;
+                }
+                return diffobj;
+                break;
+              case 'px':
+            }//end switch
           }
+
       },//end utils
       'init': function (selector, options) {
         //check if there are global options overried
