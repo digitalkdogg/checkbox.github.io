@@ -244,6 +244,10 @@ var checkbox = {
           $.each(checkboxes, function (index) {
             var thisindex = $(this).attr('id')
 
+            if ($(this).hasClass('checkbox')==false) {
+              $(this).addClass('checkbox');
+            }
+
             checkbox.checkboxes[thisindex] = $(this)
 
             if($(this).hasClass('checked')==true) {
@@ -264,13 +268,13 @@ var checkbox = {
                 $(this).attr('data-checked', false);
                 $(childele).prop('checked', false);
 
-                $(this).parent('checkbox-wrapper').toggleClass('checked')
+                $(this).parent('.checkbox-wrapper').toggleClass('checked')
 
               } else {
                 $(this).addClass('checked');
                 $(this).attr('data-checked', true)
 
-                $(this).parent('checkbox-wrapper').toggleClass('checked')
+                $(this).parent('.checkbox-wrapper').toggleClass('checked')
 
                 $(childele).prop('checked', true)
               }

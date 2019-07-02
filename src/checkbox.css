@@ -39,6 +39,10 @@ div.checkbox span.checkbox-span {
     vertical-align: bottom;
 }
 
+div.checkbox-wrapper.checked span.checkbox-span {
+  vertical-align: super;
+}
+
 div.checkbox-wrapper:not(.checked) span.checkbox-span {
     vertical-align: bottom;
 }
