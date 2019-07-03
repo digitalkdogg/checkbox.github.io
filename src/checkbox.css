@@ -4,45 +4,29 @@
   display:none;
 }
 
-div.checkbox-wrapper {
-  display:inline-block;
-}
-
 div.checkbox {
   width: 20px;
   height: 20px;
-  margin:0 5px;
-  display:inline-block;
+  font-size:1em;
 }
 
-div.checkbox:not(.checked):before {
-    content: "";
-    width:20px;
-    height:20px;
-    top: 2px;
-    left:2px;
-    position: relative;
-    display:inline-flex;
-  }
+div.checkbox.visible {
+    display: inline-block;
+}
 
-div.checkbox.checked:before {
+div.checkbox-text {
+  display:inline;
+  vertical-align: top;
+}
+
+div.checkbox:before {
     font-family: FontAwesome;
     content: "\f00c";
     position: relative;
-    font-size:1em;
     top: 2px;
     left: 2px;
   }
 
-div.checkbox span.checkbox-span {
-    color: initial;
-    vertical-align: bottom;
-}
-
-div.checkbox-wrapper.checked span.checkbox-span {
-  vertical-align: super;
-}
-
-div.checkbox-wrapper:not(.checked) span.checkbox-span {
-    vertical-align: bottom;
+div.checkbox.notchecked:before {
+  visibility: hidden;
 }
