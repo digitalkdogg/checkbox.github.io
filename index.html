@@ -203,10 +203,12 @@ var options = {
   'exclude_post': true,
   'styles': {
     'color': 'black',
-    'font-size': '1em',
+    'font-size': '1.5em',
     'border': '1px solid black'
   }
 }
-checkbox.init('.checkbox', options)
+$(document).ready(function () {
+  checkbox.init('.checkbox', options)
+});
 </script>
 </html>

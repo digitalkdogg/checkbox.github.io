@@ -69,6 +69,7 @@ var checkbox = {
                 $.each(this, function (prop, value) {
                   if (checkbox.defaults.styles[prop] != value) {
                     checkbox.defaults.styles[prop] = value;
+
                   }
                 })
               }
@@ -76,6 +77,31 @@ var checkbox = {
           }
         })
       }
+    },
+    'adjust_checks' : function (ele) {
+      var $ele = $(ele)
+      var fonts= {}
+      fonts['checkbox'] = $(ele).css('font-size');
+      fonts['body'] = $('body').css('font-size');
+
+        setTimeout(function () {
+          let pos = $(ele).position();
+          let id = $(ele).attr('id')
+
+          if (fonts.body != fonts.checkbox) {
+            pos.top = pos.top -10
+            pos.left = pos.left + 5
+          } else {
+            pos.top = pos.top;
+            pos.left = pos.left + 10
+          }
+          checkbox.helpers.add_rule('#'+id+':before', {
+            'top': (pos.top) + 'px',
+            'left': (pos.left) + 'px'
+          })
+        },200)
+
+      return null;
     },
     'wrap_ele' : function (ele) {
       $(ele).wrap('<div class = "checkbox-wrapper" />')
@@ -124,85 +150,6 @@ var checkbox = {
         } //end if ele excludepost
       } //end if ele global exclude
     },//end attach_posts
-    'legacy' : {
-      'font_size_css' : function () {
-        if (item == 'font_size') {
-          if (checkbox.defaults.styles['font_size'] != val) {
-            var defaultval = checkbox.defaults.styles['font_size'];
-            var newunit = ''
-            var defaultunit = ''
-
-            var unitobj = checkbox.utils.get_font_size_unit(val, defaultval);
-
-            if (unitobj.new == unitobj.default) {
-              let startpos = val.indexOf(unitobj.new);
-              let newnumval = val.slice(0, startpos);
-
-              var topdiff = checkbox.utils.calc_font_size_diff(unitobj.new, val, unitobj.default, defaultval);
-              var diffobj = checkbox.utils.calc_font_size_left_right(unitobj.new, newnumval, topdiff);
-
-            }
-
-              checkbox.helpers.add_rule('.checkbox:before', {
-                top: '-' + diffobj.top + unitobj.new + ' !important',
-                left: '-' + diffobj.left + unitobj.new + ' !important'
-              })
-          }
-        }
-      },//end fontsizecss
-      'get_font_size_unit': function (val, defaultval) {
-        var unitobj = {};
-        if (val.indexOf('px')>0) {
-          unitobj.new = 'px'
-        }
-        if (val.indexOf('em')>0) {
-          unitobj.new = 'em';
-        }
-        if (defaultval.indexOf('px')>0) {
-          unitobj.default = 'px';
-        }
-        if (defaultval.indexOf('em')>0) {
-          unitobj.default = 'em';
-        }
-        return unitobj;
-      },
-      'calc_font_size_diff': function (unit, val, defaultunit, defaultval) {
-        let startpos = val.indexOf(unit);
-        let newnumval = val.slice(0, startpos);
-        startpos = defaultval.indexOf(defaultunit);
-        let newdefaultnumval = defaultval.slice(0, startpos);
-        var topdiff = 0;
-
-        if (newdefaultnumval > newnumval) {
-          topdiff = newdefaultnumval - newnumval;
-        } else {
-          topdiff = newnumval - newdefaultnumval
-        }
-        return topdiff;
-      },
-      'calc_font_size_left_right' : function (unit, val, topdiff) {
-        switch(unit) {
-          case 'em':
-            var diffobj = {top:0, left:0}
-            if (val > 0 && val <= 1.5) {
-              diffobj.top = ((topdiff / 2) * 1) /1;
-              return diffobj;
-            }
-            if (val > 1.5 && val <= 2) {
-              diffobj.top = ((topdiff / 2.5) * 1) /1;
-              return diffobj;
-            }
-            if (val > 2 && val <= 3) {
-              diffobj.top = ((topdiff / 3.5) * 1) / 1
-              diffobj.left = .2
-              return diffobj;
-            }
-            return diffobj;
-            break;
-          case 'px':
-        }//end switch
-      }//end calc font size left right
-    },//end legacy
     'generate_id': function (ele) {
       var id = checkbox.helpers.get_random_id();
       $.each(checkbox.checkboxes, function (index, val) {
@@ -221,6 +168,8 @@ var checkbox = {
         $.each(styles, function (prop, val){
           $(ele).css(prop, val)
         })
+
+
       })
     },//end set set_globals
     'set_styling' : function (ele, thisindex) {
@@ -233,6 +182,7 @@ var checkbox = {
             let prop = styles[0].trim();
             let val = styles[1].trim();
             $(ele).css(prop,val)
+
             checkbox.checkboxes[thisindex]['customstyles'] = {'prop': prop, 'val': val}
           }
         }
@@ -299,6 +249,8 @@ var checkbox = {
           checkbox.fn.wrap_ele($(this));
           checkbox.fn.set_proper_class($(this), thisindex)
           checkbox.fn.set_styling($(this), thisindex)
+          checkbox.fn.adjust_checks($(this))
+
 
           $(this).click(function () {
             if ($(this).hasClass('checked') == true) {
