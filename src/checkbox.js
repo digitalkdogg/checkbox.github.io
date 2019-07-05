@@ -14,8 +14,11 @@ var checkbox = {
       'color': 'black',
       'background': '#eee',
       'border': '1px solid black',
-      'font_size': '1.1em',
+      'font_size': '1em',
       'margin': '0 5px',
+    }, //end styles
+    'before_styles': {
+      'margin': '2px -2px'
     }
   },//end defaults
   'fn': {
@@ -79,27 +82,46 @@ var checkbox = {
       }
     },
     'adjust_checks' : function (ele) {
+      setTimeout(function () {
       var $ele = $(ele)
       var fonts= {}
-      fonts['checkbox'] = $(ele).css('font-size');
-      fonts['body'] = $('body').css('font-size');
+      fonts['checkbox'] = parseInt($(ele).css('font-size'));
+      fonts['body'] = parseInt($('body').css('font-size'));
 
-        setTimeout(function () {
-          let pos = $(ele).position();
-          let id = $(ele).attr('id')
 
-          if (fonts.body != fonts.checkbox) {
-            pos.top = pos.top -10
-            pos.left = pos.left + 5
-          } else {
-            pos.top = pos.top;
-            pos.left = pos.left + 10
-          }
-          checkbox.helpers.add_rule('#'+id+':before', {
-            'top': (pos.top) + 'px',
-            'left': (pos.left) + 'px'
-          })
-        },200)
+      let id = $(ele).attr('id')
+      let height = $(ele).height();
+      let pos = $(ele).position();
+
+      if (fonts.body != fonts.checkbox) {
+        fonts['double'] = parseInt(fonts.body) * parseInt(2);
+        fonts['triple'] = parseInt(fonts.body) * parseInt(3);
+        fonts['quad'] = fonts.body * 4
+        if (fonts.checkbox > fonts.body && fonts.checkbox <= fonts.double) {
+          pos.top = pos.top - 11
+          pos.left = pos.left + 5
+        }
+        if (fonts.checkbox > fonts.double && fonts.checkbox <= fonts.triple) {
+          pos.top = pos.top - 25;
+          pos.left = pos.left;
+        } else if (fonts.checkbox > fonts.triple && fonts.checkbox <= fonts.quad) {
+          pos.top = pos.top - 39;
+          pos.left = pos.left - 8;
+        } else {
+          pos.top = pos.top
+          pos.left - pos.left + 5
+        }
+      } else {
+
+        pos.top = pos.top;
+        pos.left = pos.left + 10
+      }
+
+      checkbox.helpers.add_rule('#'+id+':before', {
+        'top': (pos.top) + 'px',
+        'left': (pos.left) + 'px'
+      })
+    },100)
 
       return null;
     },
@@ -164,12 +186,19 @@ var checkbox = {
       $.each(checkboxes, function () {
         let ele = $(this)
         let styles = checkbox.defaults.styles
+        let beforestyles = checkbox.defaults.before_styles
+
         $(ele).addClass('default')
         $.each(styles, function (prop, val){
           $(ele).css(prop, val)
         })
 
-
+        $.each(beforestyles, function(prop, val) {
+           var id = $(ele).attr('id');
+           checkbox.helpers.add_rule('#'+id+':before', {
+             [prop]: val
+           })
+        })//end before styles
       })
     },//end set set_globals
     'set_styling' : function (ele, thisindex) {
@@ -203,15 +232,21 @@ var checkbox = {
     },
     'add_rule' : function (selector, styles, sheet) {
         styles = (function (styles) {
-            if (typeof styles === "string") return styles;
+
+            if (typeof styles === "string") {
+              return styles;
+            }
+
             var clone = "";
             for (var p in styles) {
+
                 if (styles.hasOwnProperty(p)) {
                     var val = styles[p];
                     p = p.replace(/([A-Z])/g, "-$1").toLowerCase(); // convert to dash-case
                     clone += p + ":" + (p === "content" ? '"' + val + '"' : val) + "; ";
                 }
             }
+
             return clone;
         }(styles));
         sheet = sheet || document.styleSheets[document.styleSheets.length - 1];
@@ -221,7 +256,7 @@ var checkbox = {
           sheet.add_rule(selector, styles);
         }
 
-        return this;
+        return null;
 
     }//end addRule funciton
   }, //end helpers
@@ -251,13 +286,17 @@ var checkbox = {
           checkbox.fn.set_styling($(this), thisindex)
           checkbox.fn.adjust_checks($(this))
 
-
           $(this).click(function () {
             if ($(this).hasClass('checked') == true) {
               checkbox.fn.click($(this), 'notchecked');
             } else {
               checkbox.fn.click($(this), 'checked');
             }
+          })
+
+          $(window).resize(function () {
+              $this = $(thisindex)
+            //  checkbox.fn.adjust_checks($($this))
           })
         }
       })
