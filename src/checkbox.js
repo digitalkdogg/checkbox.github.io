@@ -95,16 +95,28 @@ var checkbox = {
 
       if (fonts.body != fonts.checkbox) {
         fonts['double'] = parseInt(fonts.body) * parseInt(2);
+        fonts['onehalf'] = fonts.body * 1.5;
         fonts['triple'] = parseInt(fonts.body) * parseInt(3);
+        fonts['twohalf'] = fonts.body * 2.5
+        fonts['threehalf'] = fonts.body * 3.5;
         fonts['quad'] = fonts.body * 4
-        if (fonts.checkbox > fonts.body && fonts.checkbox <= fonts.double) {
+
+        if (fonts.checkbox > fonts.body && fonts.checkbox <= fonts.onehalf) {
+          pos.top = pos.top - 5;
+          pos.left = pos.left + 7;
+        } else if (fonts.checkbox > fonts.onehalf && fonts.checkbox <= fonts.double) {
           pos.top = pos.top - 11
           pos.left = pos.left + 5
-        }
-        if (fonts.checkbox > fonts.double && fonts.checkbox <= fonts.triple) {
+        } else if (fonts.checkbox > fonts.double && fonts.checkbox  <= fonts.twohalf) {
+          pos.top = pos.top - 18;
+          pos.left = pos.left + 3;
+        } else if (fonts.checkbox > fonts.twohalf && fonts.checkbox <= fonts.triple) {
           pos.top = pos.top - 25;
           pos.left = pos.left;
-        } else if (fonts.checkbox > fonts.triple && fonts.checkbox <= fonts.quad) {
+        } else if (fonts.checkbox > fonts.triple && fonts.checkbox <= fonts.threehalf) {
+          pos.top = pos.top - 31;
+          pos.left = pos.left -5; 
+        } else if (fonts.checkbox > fonts.threehalf && fonts.checkbox <= fonts.quad) {
           pos.top = pos.top - 39;
           pos.left = pos.left - 8;
         } else {
