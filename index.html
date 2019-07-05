@@ -90,7 +90,7 @@ code.nohighlight textarea {
 <body>
   <div id = "header">
     <div id = "logo">
-      <div id ="logo-check" class = "checkbox checked" data-style="background:#ccc; font-size:18px;" data-excludepost="true">
+      <div id ="logo-check" class = "checkbox checked" data-styles="background:#ccc; font-size:18px;" data-beforestyles="margin-top:7px; margin-left:1px;" data-excludepost="true">
         <h1>Checkbox.me</h1>
       </div>
     </div>
@@ -149,8 +149,8 @@ code.nohighlight textarea {
     checkbox.init('.checkbox', options);
   </code></pre>
     <p class = "margin-left-20">The above code will take set all of the checkboxes on your page to have
-    a color of red unless they are overrided by the data-style attribute</p>
-    <p class = "margin-left-20"><div class = "checkbox" data-style= "color:red;">example red</div></p>
+    a color of red unless they are overrided by the data-styles attribute</p>
+    <p class = "margin-left-20"><div class = "checkbox" data-styles= "color:red;">example red</div></p>
 
     <h4>exclude_post : <span> Used to exclude checkbox from a post.  Useful if hitting an ajax rest call </span></h4>
     <p class = "margin-left-20"><b>Default : </b>False</p>
@@ -168,29 +168,29 @@ code.nohighlight textarea {
 <h2>Overriding individual checkboxes</h2>
 <p>Sometimes there is a need to style just one checkbox a certain way from all of
 your other checkboxes.  Checkbox.me has that covered</p>
-<h4>data-style : <span>This allows you to pass inline style attributes to an individual checkbox</span></h4>
+<h4>data-styles : <span>This allows you to pass inline style attributes to an individual checkbox</span></h4>
 <p class = "margin-left-20">Example :
 <pre><code class="nohighlight">
 <textarea disabled>
-<div class = "checkbox" data-style="border-radius: 5px;">border radius 5</div>
+<div class = "checkbox" data-styles="border-radius: 5px;">border radius 5</div>
 </textarea>
 </pre></code>
 </p>
 <p class = "margin-left-20">Results :
-<div class = "checkbox" data-style="border-radius: 5px;">border radius 5</div>
+<div class = "checkbox" data-styles="border-radius: 5px;">border radius 5</div>
 </p>
 <p class = "margin-left-20">Usages : Will accept any valid inline style attribute</p>
 <h4>data-excludepost : <span>If you want to turn off including an indiviual checkbox from its post.  Assumes that you using the default option of exclude_post</span></h4>
 <p class = "margin-left-20">Example :
 <pre><code class = "nohighlight">
 <textarea disabled>
-<div id = "dontincludeinpost" class = "checkbox" data-excludepost = "true">I do not want to include this in the post</div>
+<div id = "dontincludeinpost" class = "checkbox" data-include_in_post = "off">I do not want to include this in the post</div>
 </textarea>
 </code></pre>
 </p>
 <p class = "margin-left-20">
 Results :
-<div id = "dontincludeinpost" class = "checkbox" data-excludepost = "true">I do not want to include this in the post</div>
+<div id = "dontincludeinpost" class = "checkbox" data-include_in_post = "off">I do not want to include this in the post</div>
 </p>
 <p class = "margin-left-20">
 Usage : accepts a true / false value
@@ -201,12 +201,15 @@ Usage : accepts a true / false value
 </body>
 <script type="text/javascript">
 var options = {
-  'exclude_post': true,
+ 'include_in_post': 'off',
   'styles': {
     'color': 'black',
     'font-size': '1em',
     'border': '1px solid black'
-  }
+  },
+//  'before_styles': {
+//    'border-bottom': '1px solid red'
+//  }
 }
 $(document).ready(function () {
   checkbox.init('.checkbox', options)

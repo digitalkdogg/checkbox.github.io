@@ -9,7 +9,7 @@ var checkbox = {
       'type': 'checkbox',
       'class':'hidden'
     },
-    'exclude_post': false,
+    'include_in_post': 'on',
     'styles': {
       'color': 'black',
       'background': '#eee',
@@ -23,35 +23,20 @@ var checkbox = {
   },//end defaults
   'fn': {
     'set_proper_class' : function (ele, thisindex) {
-  //    let parentele = $(ele).parent('.checkbox-wrapper')
-    //  let cloneele = $(ele).clone().appendTo(parentele);
-
       if ($(ele).hasClass('checked') == true) {
-    //    $(cloneele).removeClass('checked')
-    //    $(cloneele).addClass('notchecked');
         $(ele).addClass('checked');
         checkbox.checkboxes[thisindex]['status'] = 'checked'
       } else {
-    //    $(cloneele).removeClass('notchecked')
-    //    $(cloneele).addClass('checked');
         $(ele).addClass('notchecked');
         checkbox.checkboxes[thisindex]['status'] = 'notchecked'
       }
-
-  //    $(cloneele).addClass('hidden');
       $(ele).addClass('visible');
 
       checkbox.checkboxes[thisindex]['visible'] = $(ele)
-    //  checkbox.checkboxes[thisindex]['hidden'] = $(cloneele)
 
-    //  if ($(cloneele).hasClass('checkbox')!=true) {
-  //      $(cloneele).addClass('checkbox');
-  //    }
       if ($(ele).hasClass('checkbox')!=true) {
         $(ele).addClass('checkbox');
       }
-
-    //  checkbox.checkboxes[thisindex]['cloneele'] = $(cloneele)
 
     },//end add clone
     'handle_global_options' : function (options) {
@@ -64,15 +49,23 @@ var checkbox = {
           checkbox.global.options[index] = this;
 
           switch(index) {
-            case 'exclude_post':
-               checkbox.defaults.exclude_post = val;
+            case 'include_in_post':
+               checkbox.defaults.include_in_post = val;
                break;
             case 'styles':
               if (checkbox.helpers.get_obj_size(this)>0) {
                 $.each(this, function (prop, value) {
                   if (checkbox.defaults.styles[prop] != value) {
                     checkbox.defaults.styles[prop] = value;
-
+                  }
+                })
+              }
+              break;
+              case 'before_styles' :
+              if (checkbox.helpers.get_obj_size(this)>0) {
+                $.each(this, function (prop, value) {
+                  if (checkbox.defaults.before_styles[prop] != value) {
+                    checkbox.defaults.before_styles[prop] = value;
                   }
                 })
               }
@@ -82,57 +75,59 @@ var checkbox = {
       }
     },
     'adjust_checks' : function (ele) {
+
       setTimeout(function () {
-      var $ele = $(ele)
-      var fonts= {}
-      fonts['checkbox'] = parseInt($(ele).css('font-size'));
-      fonts['body'] = parseInt($('body').css('font-size'));
+
+        var $ele = $(ele)
+        var fonts= {}
+        fonts['checkbox'] = parseInt($(ele).css('font-size'));
+        fonts['body'] = parseInt($('body').css('font-size'));
 
 
-      let id = $(ele).attr('id')
-      let height = $(ele).height();
-      let pos = $(ele).position();
+        let id = $(ele).attr('id')
+        let height = $(ele).height();
+        let pos = $(ele).position();
 
-      if (fonts.body != fonts.checkbox) {
-        fonts['double'] = parseInt(fonts.body) * parseInt(2);
-        fonts['onehalf'] = fonts.body * 1.5;
-        fonts['triple'] = parseInt(fonts.body) * parseInt(3);
-        fonts['twohalf'] = fonts.body * 2.5
-        fonts['threehalf'] = fonts.body * 3.5;
-        fonts['quad'] = fonts.body * 4
+        if (fonts.body != fonts.checkbox) {
+          fonts['double'] = parseInt(fonts.body) * parseInt(2);
+          fonts['onehalf'] = fonts.body * 1.5;
+          fonts['triple'] = parseInt(fonts.body) * parseInt(3);
+          fonts['twohalf'] = fonts.body * 2.5
+          fonts['threehalf'] = fonts.body * 3.5;
+          fonts['quad'] = fonts.body * 4
 
-        if (fonts.checkbox > fonts.body && fonts.checkbox <= fonts.onehalf) {
-          pos.top = pos.top - 5;
-          pos.left = pos.left + 7;
-        } else if (fonts.checkbox > fonts.onehalf && fonts.checkbox <= fonts.double) {
-          pos.top = pos.top - 11
-          pos.left = pos.left + 5
-        } else if (fonts.checkbox > fonts.double && fonts.checkbox  <= fonts.twohalf) {
-          pos.top = pos.top - 18;
-          pos.left = pos.left + 3;
-        } else if (fonts.checkbox > fonts.twohalf && fonts.checkbox <= fonts.triple) {
-          pos.top = pos.top - 25;
-          pos.left = pos.left;
-        } else if (fonts.checkbox > fonts.triple && fonts.checkbox <= fonts.threehalf) {
-          pos.top = pos.top - 31;
-          pos.left = pos.left -5; 
-        } else if (fonts.checkbox > fonts.threehalf && fonts.checkbox <= fonts.quad) {
-          pos.top = pos.top - 39;
-          pos.left = pos.left - 8;
+          if (fonts.checkbox > fonts.body && fonts.checkbox <= fonts.onehalf) {
+            pos.top = pos.top - 5;
+            pos.left = pos.left + 7;
+          } else if (fonts.checkbox > fonts.onehalf && fonts.checkbox <= fonts.double) {
+            pos.top = pos.top - 11
+            pos.left = pos.left + 5
+          } else if (fonts.checkbox > fonts.double && fonts.checkbox  <= fonts.twohalf) {
+            pos.top = pos.top - 18;
+            pos.left = pos.left + 3;
+          } else if (fonts.checkbox > fonts.twohalf && fonts.checkbox <= fonts.triple) {
+            pos.top = pos.top - 25;
+            pos.left = pos.left;
+          } else if (fonts.checkbox > fonts.triple && fonts.checkbox <= fonts.threehalf) {
+            pos.top = pos.top - 31;
+            pos.left = pos.left -5;
+          } else if (fonts.checkbox > fonts.threehalf && fonts.checkbox <= fonts.quad) {
+            pos.top = pos.top - 39;
+            pos.left = pos.left - 8;
+          } else {
+            pos.top = pos.top
+            pos.left - pos.left + 5
+          }
         } else {
-          pos.top = pos.top
-          pos.left - pos.left + 5
+
+          pos.top = pos.top;
+          pos.left = pos.left + 10
         }
-      } else {
 
-        pos.top = pos.top;
-        pos.left = pos.left + 10
-      }
-
-      checkbox.helpers.add_rule('#'+id+':before', {
-        'top': (pos.top) + 'px',
-        'left': (pos.left) + 'px'
-      })
+        checkbox.helpers.add_rule('#'+id+':before', {
+          'top': (pos.top) + 'px',
+          'left': (pos.left) + 'px'
+        })
     },100)
 
       return null;
@@ -145,44 +140,59 @@ var checkbox = {
         'class': 'checkbox-text',
         'html': html
       }).appendTo($(ele).parent('.checkbox-wrapper'))
+
+      if (checkbox.defaults.include_in_post == 'on') {
+        let individual_include = $(ele).attr('data-include_in_post');
+
+        if (individual_include == 'on' || individual_include == undefined) {
+          checkbox.fn.attach_posts($(ele));
+        } else {
+          if (individual_include == 'off') {
+            delete $(ele)
+          }
+        }
+      }
     },// end wrap_ele
     'click': function (ele, status) {
       var thisindex = $(ele).attr('id');
-      if (status == 'notchecked') {
-        $(ele).addClass('notchecked');
-        $(ele).removeClass('checked');
-        checkbox.checkboxes[thisindex].status = 'notchecked'
-      } else {
+      if (status == 'checked') {
+
         $(ele).addClass('checked');
         $(ele).removeClass('notchecked');
         checkbox.checkboxes[thisindex].status = 'checked'
+
+        let child = checkbox.checkboxes[thisindex].childinput;
+        $(child).prop('checked', true)
+
+      } else if (status == 'notchecked') {
+        $(ele).addClass('notchecked');
+        $(ele).removeClass('checked');
+        checkbox.checkboxes[thisindex].status = 'notchecked'
+
+        let child = checkbox.checkboxes[thisindex].childinput;
+        $(child).prop('checked', false)
       }
     },//end click
     'attach_posts': function (ele) {
-      //legacy code need to review
-      if (checkbox.defaults.exclude_post == false) {
-        if ($(ele).attr('data-excludepost')!=='true') {
-          var eleid = $(ele).attr('id')
-          if (eleid == undefined) {
-            eleid = Date.now();
-          }
-          $('<input />', {
-            'id' : 'input_'+eleid,
-            'type': checkbox.defaults.post_html.type,
-            'class': checkbox.defaults.post_html.class,
-            'name': 'input_'+eleid
-          }).insertAfter($(ele));
+        var eleid = $(ele).attr('id')
 
-          if ($(ele).attr('data-checked') =='true') {
-            $('input#input_'+eleid).prop('checked', true)
-          }
+        $('<input />', {
+          'id' : 'input_'+eleid,
+          'type': checkbox.defaults.post_html.type,
+          'class': checkbox.defaults.post_html.class,
+          'name': 'input_'+eleid
+        }).insertAfter($(ele));
 
-          if (checkbox.checkboxes[eleid] == undefined) {
-            checkbox.checkboxes[eleid] = {};
-          }
-          checkbox.checkboxes[eleid]['childinput']= $('input#input_'+eleid);
-        } //end if ele excludepost
-      } //end if ele global exclude
+
+        if ($(ele).hasClass('checked') ==true) {
+          $('input#input_'+eleid).prop('checked', true)
+        }
+
+        if (checkbox.checkboxes[eleid] == undefined) {
+          checkbox.checkboxes[eleid] = {};
+        }
+        checkbox.checkboxes[eleid]['childinput']= $('input#input_'+eleid);
+
     },//end attach_posts
     'generate_id': function (ele) {
       var id = checkbox.helpers.get_random_id();
@@ -214,8 +224,8 @@ var checkbox = {
       })
     },//end set set_globals
     'set_styling' : function (ele, thisindex) {
-      if ($(ele).attr('data-style') != undefined) {
-        var attr = $(ele).attr('data-style').split(';');
+      if ($(ele).attr('data-styles') != undefined) {
+        var attr = $(ele).attr('data-styles').split(';');
 
         for (var x = 0; x< attr.length; x++) {
           var styles = attr[x].split(':');
@@ -225,6 +235,23 @@ var checkbox = {
             $(ele).css(prop,val)
 
             checkbox.checkboxes[thisindex]['customstyles'] = {'prop': prop, 'val': val}
+          }
+        }
+      }
+    },//end set set_styling
+    'set_beforestyling' : function (ele, thisindex) {
+      if ($(ele).attr('data-beforestyles') != undefined ) {
+        var attr = $(ele).attr('data-beforestyles').split(';');
+
+        for (var x = 0; x< attr.length; x++) {
+          var styles = attr[x].split(':');
+          if (styles[0] != '') {
+            let prop = styles[0].trim();
+            let val = styles[1].trim();
+            var id = $(ele).attr('id');
+            checkbox.helpers.add_rule('#'+id+':before', {
+              [prop]: val + ' !important'
+            })
           }
         }
       }
@@ -296,6 +323,7 @@ var checkbox = {
           checkbox.fn.wrap_ele($(this));
           checkbox.fn.set_proper_class($(this), thisindex)
           checkbox.fn.set_styling($(this), thisindex)
+          checkbox.fn.set_beforestyling($(this), thisindex);
           checkbox.fn.adjust_checks($(this))
 
           $(this).click(function () {
