@@ -1,0 +1,1 @@
+@import "font-awesome.css";.hidden{display:none}div.checkbox{width:20px;height:20px;font-size:1em}div.checkbox.visible{display:inline-block}div.checkbox-text{display:inline;vertical-align:top}div.checkbox:before{font-family:FontAwesome;content:"\f00c";position:absolute;top:2px;left:2px}div.checkbox.notchecked:before{visibility:hidden}

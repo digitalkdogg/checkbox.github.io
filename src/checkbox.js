@@ -290,9 +290,13 @@ var checkbox = {
         }(styles));
         sheet = sheet || document.styleSheets[document.styleSheets.length - 1];
         if (sheet.insertRule) {
-          sheet.insertRule(selector + " {" + styles + "}", sheet.cssRules.length);
+          try {
+            sheet.insertRule(selector + " {" + styles + "}", sheet.cssRules.length);
+          } catch(e) {console.log(e);}
         } else if(sheet.addRule) {
-          sheet.add_rule(selector, styles);
+          try {
+            sheet.add_rule(selector, styles);
+          } catch(e) {console.log(e);}
         }
 
         return null;
