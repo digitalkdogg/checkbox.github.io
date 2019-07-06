@@ -18,7 +18,7 @@ var checkbox = {
       'margin': '0 5px',
     }, //end styles
     'before_styles': {
-      'margin': '2px -2px'
+    'margin': '0px'
     }
   },//end defaults
   'fn': {

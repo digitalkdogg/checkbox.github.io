@@ -145,6 +145,10 @@ pre textarea {
     font-weight: normal;
 }
 
+p.border-bottom-1 {
+    border-bottom: 1px solid #ccc;
+}
+
 </style>
 </head>
 <body>
@@ -215,22 +219,29 @@ pre textarea {
 
       checkbox.init('.checkbox', options);
     </code>
+      <p class = "border-bottom-1"></p>
+    <div class = "checkbox" data-styles= "color:red;" data-beforestyles ="margin-left: .5em;">example red</div>
   </pre>
   <p class = "margin-left-20">The above code will take set all of the checkboxes on your page to have
     a color of red unless they are overrided by the data-styles attribute</p>
-  <p class = "margin-left-20"><div class = "checkbox" data-styles= "color:red;">example red</div></p>
 
-  <h4>exclude_post : <span> Used to exclude checkbox from a post.  Useful if hitting an ajax rest call </span></h4>
-  <p class = "margin-left-20"><b>Default : </b>False</p>
-  <p class = "margin-left-20"><b>Options : </b>True or False</p>
+
+  <h4>include_in_post : <span> Used to include_in_post from a post.  Useful if hitting an ajax rest call </span></h4>
+  <p class = "margin-left-20"><b>Default : </b>On</p>
+  <p class = "margin-left-20"><b>Options : </b>On or Off</p>
 
   <h4>styles : <span>Used to set default styling for all checkboxes on the page</span> </h4>
   <p class = "margin-left-20"><b>Default : </b></p>
   <p class = "margin-left-40"><b>color : </b>black</p>
   <p class = "margin-left-40"><b>background : </b>black</p>
   <p class = "margin-left-40"><b>border : </b>1px solid black</p>
-  <p class = "margin-left-20"><b>Options : </b>js object of attributes</p>
+  <p class = "margin-left-40"></b>Margin : </b>0 5px</P>
+  <p class = "margin-left-20"><b>Options : </b>js object of css attributes</p>
 
+  <h4>Before : <span>Used to adjust the checkmark.  Allows you to set styling on the :before attribute</span></h4>
+    <p class = "margin-left-20"><b>Default : </b></p>
+    <p class = "margin-left-40"><b>margin : </b>0px</p>
+    <p class = "margin-left-20"><b>Options : </b>js object of css attributes</p>
 </div>
 <div class = "section">
   <h2>Overriding individual checkboxes</h2>
@@ -242,26 +253,40 @@ pre textarea {
       <code class="javascript hljs">
           <div class = "checkbox" data-styles="border-radius: 5px;">border radius 5</div>
       </code>
+      <p class = "border-bottom-1"></p>
+        <div class = "checkbox" data-styles="border-radius: 5px;" data-beforestyles = "margin-left:.7em; margin-top: .1em;">border radius 5</div>
     </pre>
   </p>
-  <p class = "margin-left-20">Results :
-    <div class = "checkbox" data-styles="border-radius: 5px;">border radius 5</div>
-  </p>
   <p class = "margin-left-20">Usages : Will accept any valid inline style attribute</p>
-  <h4>data-excludepost : <span>If you want to turn off including an indiviual checkbox from its post.  Assumes that you using the default option of exclude_post</span></h4>
+  <h4>data-beforestyles : <span>Used to override the css :before attribute for one checkbox</span></h4>
+  <p class = "margin-left-20">Example :
+    <pre>
+      <code class = "javascript">
+        <div class = "checkbox" data-beforestyles="border-bottom:1px solid red">Adds a red border below the checkmark</div>
+      </code>
+        <p class = "border-bottom-1"></p>
+        <div class = "checkbox" data-beforestyles="border-bottom: 1px solid red; margin-left: .7em;">Adds a red border below the checkmark</div>
+    </pre>
+  </p>
+  <p class = "margin-left-20">Usage :
+    Depending on your own css and how you use the checkbox.me library you may need to override the css :before attribute
+      for one checkbox.  This is used in the same maner as the global but only affects one checkbox
+  </p>
+
+  <h4>data-include-in-post : <span>If you want to turn off including an indiviual checkbox from its post.  Assumes that you using the default option of exclude_post</span></h4>
   <p class = "margin-left-20">Example :
     <pre>
       <code>
           <div id = "dontincludeinpost" class = "checkbox" data-include_in_post = "off">I do not want to include this in the post</div>
       </code>
+      <p class = "border-bottom-1"></p>
+      <div id = "dontincludeinpost" class = "checkbox" data-include_in_post = "off" data-beforestyles = "margin-left: .5em;">I do not want to include this in the post</div>
+
     </pre>
 </p>
-<p class = "margin-left-20">
-  Results :
-  <div id = "dontincludeinpost" class = "checkbox" data-include_in_post = "off">I do not want to include this in the post</div>
-</p>
+
   <p class = "margin-left-20">
-    Usage : accepts a true / false value
+    Usage : accepts a on / off value
   </p>
 </div>
 </div>
