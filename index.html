@@ -6,10 +6,30 @@
   <script type="text/javascript" src="./src/checkbox.js"></script>
   <link rel="stylesheet" href="./src/checkbox.css" />
 
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css2">
   <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script>
   <!-- the above is https://highlightjs.org/usage/  -->
-  <script>hljs.initHighlightingOnLoad();</script>
+  <script>
+  //hljs.initHighlightingOnLoad();
+  var html = {
+    '<' : '&lt;',
+    '>' : '&gt;',
+    '\'' : '&quot;'
+  }
+
+$(document).ready(function () {
+  $('code').each(function () {
+    if ($(this).hasClass('nohighlight')==false) {
+      var markup = $(this).html().trim()
+      $.each(html, function (index,val) {
+        markup = markup.replace(new RegExp(index, 'g'), val)
+      })
+      $(this).html(markup);
+    }
+  })
+})
+
+  </script>
 <title>Checkbox.me</title>
 <style>
 body {
@@ -47,14 +67,58 @@ pre {
     border: 1px solid #ddd;
     border-left: 3px solid #0d609b;
     color: #666;
-    page-break-inside: avoid;
     font-family: monospace;
     font-size: 15px;
-    max-width: 100%;
-    overflow: hidden;
+    max-width: 90%;
     display: block;
     word-wrap: break-word;
-    margin: 0 20px;
+    min-height: 50px;
+    padding: 1em 1.5em 0;
+    white-space: pre-line;
+}
+
+pre.pre-wrap {
+  white-space: pre-wrap;
+  padding: 1em 0;
+}
+
+@media only screen and (max-width: 800px) {
+  pre.pre-wrap {
+    white-space:pre;
+    max-width:99%
+  }
+
+  pre.pre-wrap code {
+    position: relative;
+    left:-15px;
+  }
+
+  pre:not(.pre-wrap) {
+    padding:0 0 0 15px;
+    white-space:nowrap;
+    max-width:99%
+  }
+
+  div.section {
+    padding:5px;
+    margin: 10px 0 ;
+  }
+
+  div#content {
+    padding: 10px 0;
+  }
+}
+
+@media only screen and (max-width: 1224px) {
+  pre {
+    overflow-x: scroll;
+    overflow-y: scroll;
+    padding:1em !important;
+  }
+}
+
+code {
+  background: #f4f4f4 !important;
 }
 
 pre textarea {
@@ -63,10 +127,6 @@ pre textarea {
   width: 100%;
   overflow-y:hidden;
   font-size: 1em;
-}
-
-code.nohighlight textarea {
-    padding: 0 20px;
 }
 
 .margin-left-20 {
@@ -113,25 +173,31 @@ code.nohighlight textarea {
   <div class = "section">
   <h2>Basic Usage </h2>
   <p>1. Reference Jquery</p>
-  <pre><code class = "nohighlight">
-    <textarea disabled rows = "1"><script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js" /></textarea>
-  </code></pre>
+  <pre>
+    <code class = "nohighlight">&lt;script type=&quot;text/javascript&quot; src=&quot;https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js&quot; /&gt;</code>
+  </pre>
   <p>2. Reference checkbox.me js</p>
-  <pre><code class="nohighlight">
-  <textarea disabled rows = "1"><script type="text/javascript" src="./checkbox.min.js" /></textarea>
-  </code></pre>
+  <pre>
+    <code class="nohighlight">&lt;script type=&quot;text/javascript&quot; src=&quot;./checkbox.min.js&quot; /&gt;</code>
+  </pre>
   <p>3. Reference checkbox.me css</p>
-  <pre><code class="nohighlight">
-    <textarea disabled rows = "1"><link rel="stylesheet" href="./checkbox.css" /></textarea>
-  </code></pre>
+  <pre>
+    <code class="nohighlight">&lt;link rel=&quot;stylesheet&quot; href=&quot;./checkbox.css&quot; /&gt;</code>
+  </pre>
   <p>4. Create your elements based on any selector</p>
-  <pre><code class="nohighlight">
-    <textarea disabled><div id = "mycheckboxid_1" class = "checkbox checked">Do you like checkbox.me</div></textarea>
-  </code></pre>
+  <pre>
+    <code>
+    <div id = "mycheckboxid_1" class = "checkbox checked">Do you like checkbox.me</div>
+    </code>
+  </pre>
   <p>5. Initiate the JS by passing in the selector of your element from step 4</p>
-  <pre><code class="javascript">
+  <pre class = "pre-wrap">
+    <code class="javascript">
+    $(document).ready(function () {
       checkbox.init('.checkbox');
-  </code></pre>
+    })
+    </code>
+  </pre>
 </div>
 <div class = "section">
   <h2>Setting Global Defaults</h2>
@@ -139,64 +205,65 @@ code.nohighlight textarea {
   value.  There may be a time where you would like a differnt value to be set.
   Global options can be set using the options js method.  Just set a var
   with our options and passed it in when you call init</p>
-  <pre><code class="javascript">
-    var options = {
-      styles: {
-        color: 'red'
+  <pre class = "pre-wrap">
+    <code class="javascript">
+      var options = {
+        styles: {
+          color: 'red'
+        }
       }
-    }
 
-    checkbox.init('.checkbox', options);
-  </code></pre>
-    <p class = "margin-left-20">The above code will take set all of the checkboxes on your page to have
+      checkbox.init('.checkbox', options);
+    </code>
+  </pre>
+  <p class = "margin-left-20">The above code will take set all of the checkboxes on your page to have
     a color of red unless they are overrided by the data-styles attribute</p>
-    <p class = "margin-left-20"><div class = "checkbox" data-styles= "color:red;">example red</div></p>
+  <p class = "margin-left-20"><div class = "checkbox" data-styles= "color:red;">example red</div></p>
 
-    <h4>exclude_post : <span> Used to exclude checkbox from a post.  Useful if hitting an ajax rest call </span></h4>
-    <p class = "margin-left-20"><b>Default : </b>False</p>
-    <p class = "margin-left-20"><b>Options : </b>True or False</p>
+  <h4>exclude_post : <span> Used to exclude checkbox from a post.  Useful if hitting an ajax rest call </span></h4>
+  <p class = "margin-left-20"><b>Default : </b>False</p>
+  <p class = "margin-left-20"><b>Options : </b>True or False</p>
 
-    <h4>styles : <span>Used to set default styling for all checkboxes on the page</span> </h4>
-    <p class = "margin-left-20"><b>Default : </b></p>
-    <p class = "margin-left-40"><b>color : </b>black</p>
-    <p class = "margin-left-40"><b>background : </b>black</p>
-    <p class = "margin-left-40"><b>border : </b>1px solid black</p>
-    <p class = "margin-left-20"><b>Options : </b>js object of attributes</p>
+  <h4>styles : <span>Used to set default styling for all checkboxes on the page</span> </h4>
+  <p class = "margin-left-20"><b>Default : </b></p>
+  <p class = "margin-left-40"><b>color : </b>black</p>
+  <p class = "margin-left-40"><b>background : </b>black</p>
+  <p class = "margin-left-40"><b>border : </b>1px solid black</p>
+  <p class = "margin-left-20"><b>Options : </b>js object of attributes</p>
 
 </div>
 <div class = "section">
-<h2>Overriding individual checkboxes</h2>
-<p>Sometimes there is a need to style just one checkbox a certain way from all of
-your other checkboxes.  Checkbox.me has that covered</p>
-<h4>data-styles : <span>This allows you to pass inline style attributes to an individual checkbox</span></h4>
-<p class = "margin-left-20">Example :
-<pre><code class="nohighlight">
-<textarea disabled>
-<div class = "checkbox" data-styles="border-radius: 5px;">border radius 5</div>
-</textarea>
-</pre></code>
-</p>
-<p class = "margin-left-20">Results :
-<div class = "checkbox" data-styles="border-radius: 5px;">border radius 5</div>
-</p>
-<p class = "margin-left-20">Usages : Will accept any valid inline style attribute</p>
-<h4>data-excludepost : <span>If you want to turn off including an indiviual checkbox from its post.  Assumes that you using the default option of exclude_post</span></h4>
-<p class = "margin-left-20">Example :
-<pre><code class = "nohighlight">
-<textarea disabled>
-<div id = "dontincludeinpost" class = "checkbox" data-include_in_post = "off">I do not want to include this in the post</div>
-</textarea>
-</code></pre>
-</p>
-<p class = "margin-left-20">
-Results :
-<div id = "dontincludeinpost" class = "checkbox" data-include_in_post = "off">I do not want to include this in the post</div>
+  <h2>Overriding individual checkboxes</h2>
+  <p>Sometimes there is a need to style just one checkbox a certain way from all of
+  your other checkboxes.  Checkbox.me has that covered</p>
+  <h4>data-styles : <span>This allows you to pass inline style attributes to an individual checkbox</span></h4>
+  <p class = "margin-left-20">Example :
+    <pre>
+      <code class="javascript hljs">
+          <div class = "checkbox" data-styles="border-radius: 5px;">border radius 5</div>
+      </code>
+    </pre>
+  </p>
+  <p class = "margin-left-20">Results :
+    <div class = "checkbox" data-styles="border-radius: 5px;">border radius 5</div>
+  </p>
+  <p class = "margin-left-20">Usages : Will accept any valid inline style attribute</p>
+  <h4>data-excludepost : <span>If you want to turn off including an indiviual checkbox from its post.  Assumes that you using the default option of exclude_post</span></h4>
+  <p class = "margin-left-20">Example :
+    <pre>
+      <code>
+          <div id = "dontincludeinpost" class = "checkbox" data-include_in_post = "off">I do not want to include this in the post</div>
+      </code>
+    </pre>
 </p>
 <p class = "margin-left-20">
-Usage : accepts a true / false value
+  Results :
+  <div id = "dontincludeinpost" class = "checkbox" data-include_in_post = "off">I do not want to include this in the post</div>
 </p>
+  <p class = "margin-left-20">
+    Usage : accepts a true / false value
+  </p>
 </div>
-
 </div>
 </body>
 <script type="text/javascript">
